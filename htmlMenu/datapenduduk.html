@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistik Penduduk Desa Bambapuang</title>
+    <style>
+      /* Reset some default styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Basic page styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        height: 100vh;
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 350px;
+        margin: auto;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .login-container h1 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 1.8em;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .login-container input {
+        width: 100%;
+        padding: 12px;
+        margin: 12px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: border-color 0.3s ease;
+      }
+
+      .login-container input:focus {
+        border-color: #4caf50;
+        outline: none;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+      }
+
+      .login-container button {
+        background: linear-gradient(135deg, #4caf50, #388e3c);
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 50px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease, box-shadow 0.3s ease,
+          background 0.3s ease;
+        margin-bottom: 16px;
+      }
+
+      .login-container button:hover {
+        background: linear-gradient(135deg, #388e3c, #2e7d32);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+      }
+
+      .login-container button:active {
+        transform: translateY(2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .error-message {
+        color: #ff5252;
+        font-size: 0.9em;
+        margin-top: 10px;
+        animation: fade-in 0.5s ease;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      header h1 {
+        color: #4caf50;
+        font-size: 2.5em;
+      }
+
+      header p {
+        font-size: 1.2em;
+        color: #666;
+      }
+
+      .section-title {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 1.5em;
+        color: #4caf50;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table th,
+      table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      form {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      form input,
+      form button,
+      form select {
+        padding: 10px;
+        margin: 10px;
+        font-size: 1em;
+      }
+
+      #formUpdatePenduduk {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mainContent" class="container">
+      <header>
+        <h1>Statistik Penduduk Desa Bambapuang</h1>
+        <p>
+          Data penduduk berdasarkan dusun, jenis kelamin, dan kepala keluarga
+        </p>
+      </header>
+
+      <section>
+        <div class="section-title">Total Penduduk Desa</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Total Penduduk</th>
+              <th>Laki-laki</th>
+              <th>Perempuan</th>
+              <th>Kepala Keluarga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="totalPenduduk">0</td>
+              <td id="totalLakiLaki">0</td>
+              <td id="totalPerempuan">0</td>
+              <td id="totalKK">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <div class="section-title">Penduduk Berdasarkan Dusun</div>
+        <table id="tabelPenduduk">
+          <thead>
+            <tr>
+              <th>Dusun</th>
+              <th>Total Penduduk</th>
+              <th>Laki-laki</th>
+              <th>Perempuan</th>
+              <th>Kepala Keluarga</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section>
+        <div class="section-title">Update Data Penduduk Desa</div>
+        <form id="formUpdatePenduduk">
+          <label for="dusunUpdate">Dusun:</label>
+          <select id="dusunUpdate" required></select>
+          <br /><br />
+
+          <label for="lakiLakiUpdate">Tambah/Kurangi Laki-laki:</label>
+          <input
+            type="number"
+            id="lakiLakiUpdate"
+            name="lakiLakiUpdate"
+            value="0"
+          /><br /><br />
+
+          <label for="perempuanUpdate">Tambah/Kurangi Perempuan:</label>
+          <input
+            type="number"
+            id="perempuanUpdate"
+            name="perempuanUpdate"
+            value="0"
+          /><br /><br />
+
+          <label for="kkUpdate">Tambah/Kurangi Kepala Keluarga:</label>
+          <input
+            type="number"
+            id="kkUpdate"
+            name="kkUpdate"
+            value="0"
+          /><br /><br />
+
+          <button type="submit">Update Data</button>
+        </form>
+        <button id="showLoginButton">Login sebagai Admin</button>
+      </section>
+    </div>
+
+    <div id="loginScreen" class="login-container" style="display: none">
+      <h1>Login Admin</h1>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <div id="errorMessage" class="error-message"></div>
+      </form>
+    </div>
+
+    <script>
+      const defaultDusunData = [
+        { dusun: "Dusun Tambun", laki: 15, perempuan: 10, kk: 6 },
+        { dusun: "Dusun Bambapuang", laki: 18, perempuan: 10, kk: 7 },
+        { dusun: "Dusun Pealangan", laki: 12, perempuan: 8, kk: 5 },
+        { dusun: "Dusun Tondok Bakaru", laki: 18, perempuan: 12, kk: 8 },
+        { dusun: "Dusun Lenong", laki: 15, perempuan: 5, kk: 4 },
+      ];
+
+      function saveDataToStorage(data) {
+        localStorage.setItem("dusunData", JSON.stringify(data));
+      }
+
+      function getDataFromStorage() {
+        const data = localStorage.getItem("dusunData");
+        return data ? JSON.parse(data) : defaultDusunData;
+      }
+
+      function renderTable() {
+        const dusunData = getDataFromStorage();
+        const tableBody = document.querySelector("#tabelPenduduk tbody");
+        const dusunSelect = document.getElementById("dusunUpdate");
+
+        tableBody.innerHTML = "";
+        dusunSelect.innerHTML = "";
+
+        let totalPenduduk = 0;
+        let totalLakiLaki = 0;
+        let totalPerempuan = 0;
+        let totalKK = 0;
+
+        dusunData.forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${item.dusun}</td>
+            <td>${item.laki + item.perempuan}</td>
+            <td>${item.laki}</td>
+            <td>${item.perempuan}</td>
+            <td>${item.kk}</td>
+          `;
+          tableBody.appendChild(row);
+
+          const option = document.createElement("option");
+          option.value = item.dusun;
+          option.textContent = item.dusun;
+          dusunSelect.appendChild(option);
+
+          totalPenduduk += item.laki + item.perempuan;
+          totalLakiLaki += item.laki;
+          totalPerempuan += item.perempuan;
+          totalKK += item.kk;
+        });
+
+        document.getElementById("totalPenduduk").textContent = totalPenduduk;
+        document.getElementById("totalLakiLaki").textContent = totalLakiLaki;
+        document.getElementById("totalPerempuan").textContent = totalPerempuan;
+        document.getElementById("totalKK").textContent = totalKK;
+      }
+
+      document
+        .getElementById("formUpdatePenduduk")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const dusun = document.getElementById("dusunUpdate").value;
+          const lakiUpdate = parseInt(
+            document.getElementById("lakiLakiUpdate").value
+          );
+          const perempuanUpdate = parseInt(
+            document.getElementById("perempuanUpdate").value
+          );
+          const kkUpdate = parseInt(document.getElementById("kkUpdate").value);
+
+          const dusunData = getDataFromStorage();
+
+          dusunData.forEach((item) => {
+            if (item.dusun === dusun) {
+              item.laki += lakiUpdate;
+              item.perempuan += perempuanUpdate;
+              item.kk += kkUpdate;
+            }
+          });
+
+          saveDataToStorage(dusunData);
+          renderTable();
+          document.getElementById("formUpdatePenduduk").reset();
+        });
+
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "hanyaAdmin") {
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("formUpdatePenduduk").style.display = "block";
+        } else {
+          document.getElementById("errorMessage").textContent =
+            "Username atau password salah!";
+        }
+      });
+
+      document
+        .getElementById("showLoginButton")
+        .addEventListener("click", () => {
+          document.getElementById("loginScreen").style.display = "flex";
+        });
+
+      renderTable();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,249 @@
+/* General styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+/* Navbar styling */
+/* Navbar styling */
+/* General styling */
+/* General styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Menjaga logo di kiri dan menu di kanan */
+  align-items: center;
+  background-color: #0078d7;
+  padding: 10px 20px;
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin-left: 60px; /* Tambahkan margin kiri */
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start; /* Pastikan teks agak ke kiri */
+  margin-right: 50px; /* Geser teks lebih ke tengah */
+}
+.nav-links li {
+  margin: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #f0f0f0;
+}
+
+/* Hamburger menu styling */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  border-radius: 3px;
+  margin-right: 50px;
+}
+
+/* Responsive navbar for mobile */
+/* Responsive navbar for mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Menyembunyikan menu secara default */
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: #0078d7;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .nav-links.show {
+    display: flex; /* Menampilkan menu ketika class 'show' ditambahkan */
+  }
+
+  .hamburger {
+    display: flex; /* Menampilkan hamburger menu pada layar kecil */
+  }
+}
+
+/* Header styling */
+header {
+  position: relative;
+  top: 0; /* Pastikan header tetap di posisi atas */
+  padding: 100px 20px;
+  background: url("image/hoi.jpeg") center center/cover no-repeat;
+  color: white;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Menyesuaikan header pada tampilan desktop */
+@media (min-width: 768px) {
+  header {
+    height: 500px; /* Menambah tinggi header pada desktop */
+  }
+}
+
+header h1 {
+  font-size: 2.5em;
+}
+
+/* Styling untuk Section Cards */
+#cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 80px; /* Pastikan cards tidak tertutup navbar */
+  padding: 20px;
+  max-width: 1200px;
+}
+
+/* Styling untuk Card */
+.card {
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+
+  /* Tambahkan properti untuk panjang dan lebar */
+  width: var(--card-width, 300px); /* Default width 300px */
+  height: var(--card-height, auto); /* Default height auto */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Gambar Latar Belakang untuk Card */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+/* Profil Card */
+.card:nth-child(1)::before {
+  background-image: url("image/hoi.jpeg");
+}
+
+/* Data Penduduk Card */
+.card:nth-child(2)::before {
+  background-image: url("image/bambapuang.jpeg");
+}
+
+/* Informasi Card */
+.card:nth-child(3)::before {
+  background-image: url("image/bambapuang.jpeg");
+}
+
+/* Galeri Card */
+.card:nth-child(4)::before {
+  background-image: url("image/bambapuang.jpeg");
+}
+
+/* Kontak Card */
+.card:nth-child(5)::before {
+  background-image: url("image/bambapuang.jpeg");
+}
+
+/* Konten Card */
+.card h2,
+.card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 15px;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card p {
+  font-size: 1rem;
+}
+
+/* Responsif untuk Mobile */
+/* Responsif untuk Mobile */
+@media (max-width: 768px) {
+  #cards {
+    display: flex;
+    flex-direction: column; /* Susun secara vertikal */
+    align-items: center; /* Pusatkan secara horizontal */
+    gap: 20px; /* Jarak antar kartu */
+  }
+
+  .card {
+    width: 90%; /* Lebar kartu sesuai dengan 90% lebar layar */
+    max-width: 400px; /* Maksimal lebar kartu */
+  }
+
+  .card h2 {
+    font-size: 1.25rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Menyesuaikan padding header untuk perangkat mobile */
+header {
+  padding-top: 120px; /* Memberikan lebih banyak ruang untuk header pada layar kecil */
+}

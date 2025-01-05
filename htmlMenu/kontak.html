@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>Kirim Email</h2>
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <label for="name">Nama:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    <label for="message">Pesan:</label><br>
+    <textarea id="message" name="message" rows="4" required></textarea><br><br>
+    <input type="submit" value="Kirim">
+  </form>
+
+  <?php
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $message = $_POST['message'];
+      
+      $to = "email_tujuan@example.com";  // Ganti dengan email tujuan Anda
+      $subject = "Pesan dari $name";
+      $body = "Nama: $name\nEmail: $email\n\nPesan:\n$message";
+      $headers = "From: $email";
+      
+      if (mail($to, $subject, $body, $headers)) {
+          echo "Email berhasil dikirim!";
+      } else {
+          echo "Terjadi kesalahan saat mengirim email.";
+      }
+  }
+  ?>
+</body>
+</html>

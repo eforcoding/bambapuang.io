@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasil Alam</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+      }
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        color: #333;
+      }
+      .grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        flex: 1 1 calc(33.333% - 20px);
+        max-width: calc(33.333% - 20px);
+        position: relative;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4 / 3;
+      }
+      .card-content {
+        padding: 15px;
+        text-align: center;
+      }
+      .card-content h2 {
+        margin-top: 0;
+        color: #555;
+      }
+      .contact {
+        font-size: 0.9em;
+        color: #777;
+      }
+      .contact a {
+        text-decoration: none;
+        color: #007bff;
+      }
+      .delete-button {
+        padding: 5px 10px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.9em;
+      }
+      .delete-button:hover {
+        background-color: #c82333;
+      }
+      .form-container {
+        margin-top: 40px;
+        padding: 15px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 400px; /* Membuat form lebih kecil */
+        margin: 40px auto; /* Memusatkan form */
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+      }
+      .form-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .form-container label {
+        font-weight: bold;
+        color: #555;
+      }
+      .form-container input,
+      .form-container textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .form-container button {
+        padding: 8px 10px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 1em;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .form-container button:hover {
+        background-color: #0056b3;
+      }
+      @media (max-width: 768px) {
+        .card {
+          flex: 1 1 100%;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Hasil Alam - Kopi</h1>
+        <p>
+          HASIL ALAM BERUPA TANAMAN KOPI DI DESA BAMBAPUANG BESERTA PEMILIK NYA
+        </p>
+      </div>
+
+      <div class="grid" id="product-grid"></div>
+
+      <div class="form-container">
+        <h2>Tambah Produk Baru</h2>
+        <form id="add-product-form">
+          <label for="nama-produk">Nama Produk:</label>
+          <input type="text" id="nama-produk" name="nama-produk" required />
+
+          <label for="deskripsi">Deskripsi:</label>
+          <textarea
+            id="deskripsi"
+            name="deskripsi"
+            rows="4"
+            required
+          ></textarea>
+
+          <label for="nama-pemilik">Nama Pemilik:</label>
+          <input type="text" id="nama-pemilik" name="nama-pemilik" required />
+
+          <label for="kontak">Kontak (WhatsApp atau Telepon):</label>
+          <input type="text" id="kontak" name="kontak" required />
+
+          <label for="gambar">Gambar Produk:</label>
+          <input
+            type="file"
+            id="gambar"
+            name="gambar"
+            accept="image/*"
+            required
+          />
+
+          <button type="button" id="add-product-button">Tambah Produk</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const grid = document.getElementById("product-grid");
+
+      function loadProducts() {
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+        grid.innerHTML = "";
+        products.forEach((product, index) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${product.gambar}" alt="${product.namaProduk}" />
+            <div class="card-content">
+              <h2>${product.namaProduk}</h2>
+              <p>${product.deskripsi}</p>
+              <div class="contact">
+                <p>Nama Pemilik: ${product.namaPemilik}</p>
+                <p>
+                  Kontak:
+                  <a href="https://wa.me/${product.kontak}" target="_blank" rel="noopener">WhatsApp</a>
+                  |
+                  <a href="tel:${product.kontak}">Telepon</a>
+                </p>
+              </div>
+              <button class="delete-button" data-index="${index}">Hapus</button>
+            </div>
+          `;
+          card
+            .querySelector(".delete-button")
+            .addEventListener("click", function () {
+              deleteProduct(index);
+            });
+          grid.appendChild(card);
+        });
+      }
+
+      function saveProducts(products) {
+        localStorage.setItem("products", JSON.stringify(products));
+      }
+
+      function deleteProduct(index) {
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+        products.splice(index, 1);
+        saveProducts(products);
+        loadProducts();
+      }
+
+      document
+        .getElementById("add-product-button")
+        .addEventListener("click", function () {
+          const namaProduk = document.getElementById("nama-produk").value;
+          const deskripsi = document.getElementById("deskripsi").value;
+          const namaPemilik = document.getElementById("nama-pemilik").value;
+          const kontak = document.getElementById("kontak").value;
+          const gambarInput = document.getElementById("gambar");
+
+          if (!gambarInput.files.length) {
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const products = JSON.parse(localStorage.getItem("products")) || [];
+            products.push({
+              namaProduk,
+              deskripsi,
+              namaPemilik,
+              kontak,
+              gambar: e.target.result,
+            });
+            saveProducts(products);
+            loadProducts();
+            document.getElementById("add-product-form").reset();
+          };
+
+          reader.readAsDataURL(gambarInput.files[0]);
+        });
+
+      loadProducts();
+    </script>
+  </body>
+</html>
